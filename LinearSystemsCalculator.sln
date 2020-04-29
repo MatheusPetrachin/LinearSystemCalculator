@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.1062
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EliminaçãoDeGauss_Escalonamento", "EliminaçãoDeGauss_Escalonamento\EliminaçãoDeGauss_Escalonamento.csproj", "{4FFD4D33-4F5A-4ACD-B97B-67B9C7F34678}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4FFD4D33-4F5A-4ACD-B97B-67B9C7F34678}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4FFD4D33-4F5A-4ACD-B97B-67B9C7F34678}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4FFD4D33-4F5A-4ACD-B97B-67B9C7F34678}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4FFD4D33-4F5A-4ACD-B97B-67B9C7F34678}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FD760940-0862-449E-B680-74A8A938AFE9}
+	EndGlobalSection
+EndGlobal
