@@ -8,9 +8,10 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>EliminaçãoDeGauss_Escalonamento</RootNamespace>
     <AssemblyName>EliminaçãoDeGauss_Escalonamento</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
