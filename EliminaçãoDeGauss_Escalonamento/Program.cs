@@ -6,9 +6,27 @@ namespace EliminaçãoDeGauss_Escalonamento
 {
     class Program
     {
-        public int Id { get; set; }
         static void Main(string[] args)
         {
+            int N = 0;
+            float[] b = new float[30];
+            float[] x = new float[30];
+            float[,] a = new float[30, 30];
+
+            Console.Write("Digite a ordem do sistema: ");
+            N = Convert.ToInt32(Console.ReadLine());
+
+            for (int i = 0; i < N; i++)
+            {
+                Console.WriteLine($"Linha: {i+1}");
+                for (int j = 0; j < N; j++)
+                {
+                    Console.WriteLine($"Coluna: {j+1}");
+                    a[i, j] = float.Parse(Console.ReadLine());
+                }
+                Console.WriteLine();
+            }
+            Console.ReadLine();
         }
     }
 }
