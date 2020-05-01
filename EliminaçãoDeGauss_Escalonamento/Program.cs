@@ -19,7 +19,7 @@ namespace EliminaçãoDeGauss_Escalonamento
             Solucao();
             Resultado();
             Console.ReadLine();
-            
+
         }
 
         public static void LeMatriz()
@@ -29,13 +29,12 @@ namespace EliminaçãoDeGauss_Escalonamento
 
             for (int i = 0; i < N; i++)
             {
-                Console.WriteLine($"Linha: {i + 1}");
                 for (int j = 0; j < N; j++)
                 {
-                    Console.WriteLine($"Coluna: {j + 1}");
+                    Console.Write($"[{i + 1},{j + 1}]: ");
                     a[i, j] = float.Parse(Console.ReadLine());
                 }
-                Console.WriteLine("B: ");
+                Console.Write($"Termo Independente {i+1}: ");
                 b[i] = float.Parse(Console.ReadLine());
                 Console.WriteLine();
             }
@@ -50,13 +49,11 @@ namespace EliminaçãoDeGauss_Escalonamento
 
         public static void Triangular()
         {
-            int k, i, j;
-
-            for (k = 0; k < (N - 1); k++)
+            for (int k = 0; k < (N - 1); k++)
             {
-                for (i = (k + 1); i < N; i++)
+                for (int i = (k + 1); i < N; i++)
                 {
-                    for (j = (k + 1); j < N; j++)
+                    for (int j = (k + 1); j < N; j++)
                     {
                         a[i, j] = Det(a[k, k], a[i, k], a[k, j], a[i, j]);
                         Show();
@@ -66,6 +63,7 @@ namespace EliminaçãoDeGauss_Escalonamento
                     Show();
                 }
             }
+
         }
 
         public static void Solucao()
@@ -82,24 +80,27 @@ namespace EliminaçãoDeGauss_Escalonamento
 
         public static void Resultado()
         {
-            Console.WriteLine("Solução do Problema");
+            Console.WriteLine("Solução do Problema:\n");
             for (int i = 0; i < N; i++)
-                Console.WriteLine(" {0} ", Math.Round(x[i], 3));
+            {
+                Console.WriteLine($"X{i}: " + Math.Round(x[i], 3));
+            }
         }
 
 
         public static void Show()
         {
-            Console.WriteLine("Nossa Matriz: ");
+            Console.WriteLine("Matriz: \n");
             for (int i = 0; i < N; i++)
             {
+                Console.Write("| ");
                 for (int j = 0; j < N; j++)
                 {
-                    Console.Write(a[i, j]);
+                    Console.Write("[" + a[i, j] + "]");
                 }
-                Console.WriteLine(" " + b[i]);
+                Console.Write("= [" + b[i] + "]");
+                Console.WriteLine(" |");
             }
-            Console.ReadLine();
         }
 
     }
