@@ -20,8 +20,12 @@ namespace GaussJacob
         {
             LeMatriz();
             XInicial();
+            Show();
+            Console.ReadLine();
             ZeraDiagonal();
             CalculaC();
+            ShowMatrizC();
+            Console.ReadLine();
             CalculaErro();
             Console.ReadLine();
         }
@@ -45,8 +49,16 @@ namespace GaussJacob
                 B[i] = float.Parse(Console.ReadLine());
                 Console.WriteLine();
             }
-            Show();
-            Console.ReadLine();
+        }
+        
+        public static void XInicial()
+        {
+            Console.WriteLine("Digite o X inicial: ");
+            for (int i = 0; i < N; i++)
+            {
+                Console.Write($"X{i + 1}: ");
+                X0[i] = float.Parse(Console.ReadLine());
+            }
         }
 
         public static void ZeraDiagonal()
@@ -62,8 +74,6 @@ namespace GaussJacob
                     }
                 }
             }
-            Show();
-            Console.ReadLine();
         }
 
         public static void CalculaC()
@@ -98,34 +108,14 @@ namespace GaussJacob
                     }
                 }
             }
-            ShowMatrizC();
-            Console.ReadLine();
         }
-
-        public static void XInicial()
-        {
-            Console.WriteLine("Digite o X inicial: ");
-            for (int i = 0; i < N; i++)
-            {
-                Console.Write($"X{i + 1}: ");
-                X0[i] = float.Parse(Console.ReadLine());
-            }
-
-            Console.WriteLine("\n\nX inicial digitado: \n");
-
-            for (int i = 0; i < N; i++)
-            {
-                Console.Write($"X{i + 1}: " + X0[i]);
-                Console.WriteLine();
-            }
-            Console.ReadLine();
-        }
-
+        
         public static void CalculaErro()
         {
             double erroAtual = 100;
             double[] erroRelativo = new double[3];
             double[] erroAbs = new double[3];
+            int count = 0;
 
             while (erroAtual > erro)
             {
@@ -141,10 +131,11 @@ namespace GaussJacob
                 X0[1] = XNovo[1];
                 X0[2] = XNovo[2];
 
+                count++;
                 Console.WriteLine("\n\n");
                 for (int i = 0; i < N; i++)
                 {
-                    Console.WriteLine("\nNovo X: " + XNovo[i]);
+                    Console.WriteLine($" Novo X{i+1}({count}): " + XNovo[i]);
                 }
 
                 erroRelativo[0] = XNovo[0] - XAux[0];
@@ -185,25 +176,24 @@ namespace GaussJacob
 
                 erroAtual = maiorErroRelativo / maiorErroAbs;
 
-                Console.WriteLine("Maior Erro Relativo: " + maiorErroRelativo);
-                Console.WriteLine("Maior Erro Absoluto: " + maiorErroAbs);
-                Console.WriteLine("erro Atual: " + erroAtual);
+                Console.WriteLine(" Maior Erro Relativo: " + maiorErroRelativo);
+                Console.WriteLine(" Maior Erro Absoluto: " + maiorErroAbs);
+                Console.WriteLine(" Erro Atual: " + erroAtual);
                                
             }
         }
 
         public static void Show()
         {
-            Console.WriteLine("Matriz: \n");
+            Console.WriteLine("\n\n\tMatriz: \n");
             for (int i = 0; i < N; i++)
             {
-                Console.Write("| ");
                 for (int j = 0; j < N; j++)
                 {
-                    Console.Write("[" + MatOrigin[i, j] + "]");
+                    Console.Write("\t[" + MatOrigin[i, j] + "]");
                 }
-                Console.Write("= [" + B[i] + "]");
-                Console.WriteLine(" |");
+                Console.Write("\t= [" + B[i] + "]");
+                Console.WriteLine();
             }
         }
 
@@ -219,7 +209,7 @@ namespace GaussJacob
                 Console.WriteLine();
             }
 
-            Console.WriteLine("\n\n\tG: \n");
+            Console.WriteLine("\n\n\tG: ");
             for (int i = 0; i < N; i++)
             {
                 Console.Write("\n\t[" + G[i] + "]");
