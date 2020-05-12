@@ -6,14 +6,224 @@ namespace GaussJacob
 {
     class Program
     {
+        static int N = 3;
+        static double erro = 3;
+        static double[] B = new double[30];
+        static double[] G = new double[30];
+        static double[] X0 = new double[30];
+        static double[] XNovo = new double[30];
+        static double[] XAux = new double[30];
+        static double[,] MatOrigin = new double[30, 30];
+        static double[,] MatC = new double[30, 30];
+
         static void Main(string[] args)
         {
-            // The code provided will print ‘Hello World’ to the console.
-            // Press Ctrl+F5 (or go to Debug > Start Without Debugging) to run your app.
-            Console.WriteLine("Hello World!");
-            Console.ReadKey();
+            LeMatriz();
+            XInicial();
+            ZeraDiagonal();
+            CalculaC();
+            CalculaErro();
+            Console.ReadLine();
+        }
 
-            // Go to http://aka.ms/dotnet-get-started-console to continue learning how to build a console app! 
+        public static void LeMatriz()
+        {
+            Console.Write("Digite a ordem do sistema: " + N + "\n\n");
+
+            Console.Write("Digite o Erro: ");
+            erro = double.Parse(Console.ReadLine());
+            Console.Write("\n\n");
+
+            for (int i = 0; i < N; i++)
+            {
+                for (int j = 0; j < N; j++)
+                {
+                    Console.Write($"[{i + 1},{j + 1}]: ");
+                    MatOrigin[i, j] = float.Parse(Console.ReadLine());
+                }
+                Console.Write($"Termo Independente {i + 1}: ");
+                B[i] = float.Parse(Console.ReadLine());
+                Console.WriteLine();
+            }
+            Show();
+            Console.ReadLine();
+        }
+
+        public static void ZeraDiagonal()
+        {
+            for (int i = 0; i < N; i++)
+            {
+                for (int j = 0; j < N; j++)
+                {
+                    if (i == j)
+                    {
+                        G[i] = B[i] / MatOrigin[i, j];
+                        MatC[i, j] = MatOrigin[i, j] - MatOrigin[i, j];
+                    }
+                }
+            }
+            Show();
+            Console.ReadLine();
+        }
+
+        public static void CalculaC()
+        {
+            for (int i = 0; i < N; i++)
+            {
+                for (int j = 0; j < N; j++)
+                {
+                    if ((i == 0) && (j == 1))
+                    {
+                        MatC[i, j] = -MatOrigin[i, j] / MatOrigin[i, j - 1];
+                    }
+                    else if ((i == 0) && (j == 2))
+                    {
+                        MatC[i, j] = -MatOrigin[i, j] / MatOrigin[i, j - 2];
+                    }
+                    else if ((i == 1) && (j == 0))
+                    {
+                        MatC[i, j] = -MatOrigin[i, j] / MatOrigin[i, j + 1];
+                    }
+                    else if ((i == 1) && (j == 2))
+                    {
+                        MatC[i, j] = -MatOrigin[i, j] / MatOrigin[i, j - 1];
+                    }
+                    else if ((i == 2) && (j == 0))
+                    {
+                        MatC[i, j] = -MatOrigin[i, j] / MatOrigin[i, j + 2];
+                    }
+                    else if ((i == 2) && (j == 1))
+                    {
+                        MatC[i, j] = -MatOrigin[i, j] / MatOrigin[i, j + 1];
+                    }
+                }
+            }
+            ShowMatrizC();
+            Console.ReadLine();
+        }
+
+        public static void XInicial()
+        {
+            Console.WriteLine("Digite o X inicial: ");
+            for (int i = 0; i < N; i++)
+            {
+                Console.Write($"X{i + 1}: ");
+                X0[i] = float.Parse(Console.ReadLine());
+            }
+
+            Console.WriteLine("\n\nX inicial digitado: \n");
+
+            for (int i = 0; i < N; i++)
+            {
+                Console.Write($"X{i + 1}: " + X0[i]);
+                Console.WriteLine();
+            }
+            Console.ReadLine();
+        }
+
+        public static void CalculaErro()
+        {
+            double erroAtual = 100;
+            double[] erroRelativo = new double[3];
+            double[] erroAbs = new double[3];
+
+            while (erroAtual > erro)
+            {
+                XAux[0] = X0[0];
+                XAux[1] = X0[1];
+                XAux[2] = X0[2];
+
+                XNovo[0] = (MatC[0, 0] * X0[0] + MatC[0, 1] * X0[1] + MatC[0, 2] * X0[2]) + G[0];
+                XNovo[1] = (MatC[1, 0] * X0[0] + MatC[1, 1] * X0[1] + MatC[1, 2] * X0[2]) + G[1];
+                XNovo[2] = (MatC[2, 0] * X0[0] + MatC[2, 1] * X0[1] + MatC[2, 2] * X0[2]) + G[2];
+
+                X0[0] = XNovo[0];
+                X0[1] = XNovo[1];
+                X0[2] = XNovo[2];
+
+                Console.WriteLine("\n\n");
+                for (int i = 0; i < N; i++)
+                {
+                    Console.WriteLine("\nNovo X: " + XNovo[i]);
+                }
+
+                erroRelativo[0] = XNovo[0] - XAux[0];
+                erroRelativo[1] = XNovo[1] - XAux[1];
+                erroRelativo[2] = XNovo[2] - XAux[2];
+
+                var aux = 0.0;
+
+                for (int i = 0; i < N; i++)
+                {
+                    for (int j = 0; j < N; j++)
+                    {
+                        if (erroRelativo[i] < erroRelativo[j])
+                        {
+                            //aqui acontece a troca, do maior cara  vaia para a direita e o menor para a esquerda
+                            aux = erroRelativo[i];
+                            erroRelativo[i] = erroRelativo[j];
+                            erroRelativo[j] = aux;
+                        }
+                    }
+                }
+                var maiorErroRelativo = erroRelativo[2];
+
+                for (int i = 0; i < N; i++)
+                {
+                    for (int j = 0; j < N; j++)
+                    {
+                        if (XNovo[i] < XNovo[j])
+                        {
+                            //aqui acontece a troca, do maior cara  vaia para a direita e o menor para a esquerda
+                            aux = XNovo[i];
+                            XNovo[i] = XNovo[j];
+                            XNovo[j] = aux;
+                        }
+                    }
+                }
+                var maiorErroAbs = XNovo[2];
+
+                erroAtual = maiorErroRelativo / maiorErroAbs;
+
+                Console.WriteLine("Maior Erro Relativo: " + maiorErroRelativo);
+                Console.WriteLine("Maior Erro Absoluto: " + maiorErroAbs);
+                Console.WriteLine("erro Atual: " + erroAtual);
+                               
+            }
+        }
+
+        public static void Show()
+        {
+            Console.WriteLine("Matriz: \n");
+            for (int i = 0; i < N; i++)
+            {
+                Console.Write("| ");
+                for (int j = 0; j < N; j++)
+                {
+                    Console.Write("[" + MatOrigin[i, j] + "]");
+                }
+                Console.Write("= [" + B[i] + "]");
+                Console.WriteLine(" |");
+            }
+        }
+
+        public static void ShowMatrizC()
+        {
+            Console.WriteLine("\tC: \n");
+            for (int i = 0; i < N; i++)
+            {
+                for (int j = 0; j < N; j++)
+                {
+                    Console.Write("\t[" + MatC[i, j] + "]");
+                }
+                Console.WriteLine();
+            }
+
+            Console.WriteLine("\n\n\tG: \n");
+            for (int i = 0; i < N; i++)
+            {
+                Console.Write("\n\t[" + G[i] + "]");
+            }
         }
     }
 }
