@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.28307.1062
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EliminaçãoDeGauss_Escalonamento", "EliminaçãoDeGauss_Escalonamento\EliminaçãoDeGauss_Escalonamento.csproj", "{4FFD4D33-4F5A-4ACD-B97B-67B9C7F34678}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GaussJacob", "GaussJacob\GaussJacob.csproj", "{47A94B4B-BF15-424E-B965-4C69978181CC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{4FFD4D33-4F5A-4ACD-B97B-67B9C7F34678}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4FFD4D33-4F5A-4ACD-B97B-67B9C7F34678}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4FFD4D33-4F5A-4ACD-B97B-67B9C7F34678}.Release|Any CPU.Build.0 = Release|Any CPU
+		{47A94B4B-BF15-424E-B965-4C69978181CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47A94B4B-BF15-424E-B965-4C69978181CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47A94B4B-BF15-424E-B965-4C69978181CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{47A94B4B-BF15-424E-B965-4C69978181CC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
