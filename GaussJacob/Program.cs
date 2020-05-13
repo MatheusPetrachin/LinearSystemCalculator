@@ -1,19 +1,21 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 
 namespace GaussJacob
 {
     class Program
     {
-        static int N = 3;
-        static double erro = 3;
+        static int N = 0;
+        static double erro = 0;
         static double[] B = new double[30];
         static double[] G = new double[30];
         static double[] X0 = new double[30];
         static double[] XNovo = new double[30];
         static double[] XAux = new double[30];
         static double[,] MatOrigin = new double[30, 30];
+        static double[] Horizontal = new double[30];
         static double[,] MatC = new double[30, 30];
 
         static void Main(string[] args)
@@ -32,7 +34,8 @@ namespace GaussJacob
 
         public static void LeMatriz()
         {
-            Console.Write("Digite a ordem do sistema: " + N + "\n\n");
+            Console.Write("Digite a ordem do sistema: ");
+            N = Int32.Parse(Console.ReadLine());
 
             Console.Write("Digite o Erro: ");
             erro = double.Parse(Console.ReadLine());
@@ -43,10 +46,10 @@ namespace GaussJacob
                 for (int j = 0; j < N; j++)
                 {
                     Console.Write($"[{i + 1},{j + 1}]: ");
-                    MatOrigin[i, j] = float.Parse(Console.ReadLine());
+                    MatOrigin[i, j] = double.Parse(Console.ReadLine());
                 }
                 Console.Write($"Termo Independente {i + 1}: ");
-                B[i] = float.Parse(Console.ReadLine());
+                B[i] = double.Parse(Console.ReadLine());
                 Console.WriteLine();
             }
         }
@@ -57,7 +60,7 @@ namespace GaussJacob
             for (int i = 0; i < N; i++)
             {
                 Console.Write($"X{i + 1}: ");
-                X0[i] = float.Parse(Console.ReadLine());
+                X0[i] = double.Parse(Console.ReadLine());
             }
         }
 
@@ -69,6 +72,7 @@ namespace GaussJacob
                 {
                     if (i == j)
                     {
+                        Horizontal[i] = MatOrigin[i, j];
                         G[i] = B[i] / MatOrigin[i, j];
                         MatC[i, j] = MatOrigin[i, j] - MatOrigin[i, j];
                     }
@@ -82,29 +86,9 @@ namespace GaussJacob
             {
                 for (int j = 0; j < N; j++)
                 {
-                    if ((i == 0) && (j == 1))
+                    if (i != j)
                     {
-                        MatC[i, j] = -MatOrigin[i, j] / MatOrigin[i, j - 1];
-                    }
-                    else if ((i == 0) && (j == 2))
-                    {
-                        MatC[i, j] = -MatOrigin[i, j] / MatOrigin[i, j - 2];
-                    }
-                    else if ((i == 1) && (j == 0))
-                    {
-                        MatC[i, j] = -MatOrigin[i, j] / MatOrigin[i, j + 1];
-                    }
-                    else if ((i == 1) && (j == 2))
-                    {
-                        MatC[i, j] = -MatOrigin[i, j] / MatOrigin[i, j - 1];
-                    }
-                    else if ((i == 2) && (j == 0))
-                    {
-                        MatC[i, j] = -MatOrigin[i, j] / MatOrigin[i, j + 2];
-                    }
-                    else if ((i == 2) && (j == 1))
-                    {
-                        MatC[i, j] = -MatOrigin[i, j] / MatOrigin[i, j + 1];
+                        MatC[i, j] = -MatOrigin[i, j] / Horizontal[i];
                     }
                 }
             }
@@ -113,23 +97,35 @@ namespace GaussJacob
         public static void CalculaErro()
         {
             double erroAtual = 100;
-            double[] erroRelativo = new double[3];
-            double[] erroAbs = new double[3];
+            double[] erroRelativo = new double[30];
+            double[] erroAbs = new double[30];
             int count = 0;
 
             while (erroAtual > erro)
             {
-                XAux[0] = X0[0];
-                XAux[1] = X0[1];
-                XAux[2] = X0[2];
+                for (int i=0; i<N; i++)
+                {
+                    XAux[i] = X0[i];
+                }
 
-                XNovo[0] = (MatC[0, 0] * X0[0] + MatC[0, 1] * X0[1] + MatC[0, 2] * X0[2]) + G[0];
-                XNovo[1] = (MatC[1, 0] * X0[0] + MatC[1, 1] * X0[1] + MatC[1, 2] * X0[2]) + G[1];
-                XNovo[2] = (MatC[2, 0] * X0[0] + MatC[2, 1] * X0[1] + MatC[2, 2] * X0[2]) + G[2];
+                for(int i=0; i < N; i++)
+                {
+                    XNovo[i] = 0;
+                }
 
-                X0[0] = XNovo[0];
-                X0[1] = XNovo[1];
-                X0[2] = XNovo[2];
+                for(int i=0; i<N; i++)
+                {
+                    for (int j = 0; j < N; j++)
+                    {
+                        XNovo[i] += MatC[i, j] * X0[j];
+                    }
+                    XNovo[i] += G[i];
+                }
+
+                for(int i=0; i<N; i++)
+                {
+                    X0[i] = XNovo[i];
+                }
 
                 count++;
                 Console.WriteLine("\n\n");
@@ -138,9 +134,14 @@ namespace GaussJacob
                     Console.WriteLine($" Novo X{i+1}({count}): " + XNovo[i]);
                 }
 
-                erroRelativo[0] = XNovo[0] - XAux[0];
-                erroRelativo[1] = XNovo[1] - XAux[1];
-                erroRelativo[2] = XNovo[2] - XAux[2];
+                for (int i = 0; i < N; i++)
+                {
+                    erroRelativo[i] = XNovo[i] - XAux[i];
+                    if(erroRelativo[i] < 0)
+                    {
+                        erroRelativo[i] = erroRelativo[i] * -1;
+                    }
+                }
 
                 var aux = 0.0;
 
@@ -157,7 +158,8 @@ namespace GaussJacob
                         }
                     }
                 }
-                var maiorErroRelativo = erroRelativo[2];
+
+                var maiorErroRelativo = erroRelativo[N-1];
 
                 for (int i = 0; i < N; i++)
                 {
@@ -172,7 +174,7 @@ namespace GaussJacob
                         }
                     }
                 }
-                var maiorErroAbs = XNovo[2];
+                var maiorErroAbs = XNovo[N-1];
 
                 erroAtual = maiorErroRelativo / maiorErroAbs;
 
@@ -204,7 +206,8 @@ namespace GaussJacob
             {
                 for (int j = 0; j < N; j++)
                 {
-                    Console.Write("\t[" + MatC[i, j] + "]");
+                    var result = MatC[i, j].ToString("N3");
+                    Console.Write($"\t[{MatC[i, j]}]");
                 }
                 Console.WriteLine();
             }
@@ -212,7 +215,7 @@ namespace GaussJacob
             Console.WriteLine("\n\n\tG: ");
             for (int i = 0; i < N; i++)
             {
-                Console.Write("\n\t[" + G[i] + "]");
+                Console.Write("\n\t[" + G[i].ToString("N3") + "]");
             }
         }
     }
