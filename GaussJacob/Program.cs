@@ -206,8 +206,7 @@ namespace GaussJacob
             {
                 for (int j = 0; j < N; j++)
                 {
-                    var result = MatC[i, j].ToString("N3");
-                    Console.Write($"\t[{MatC[i, j]}]");
+                    Console.Write($"\t[{MatC[i, j].ToString("N3")}]\t");
                 }
                 Console.WriteLine();
             }
