@@ -21,6 +21,7 @@ namespace Bhaskara
 
         public static void CapturaValores()
         {
+            Console.WriteLine("\nBhakara Calculator\n\nDigite os valores A,B e C de uma função do segundo Grau: ");
             for (int i = 0; i < vet.Length; i++)
             {
                 Console.Write($"Digite {n}: ", n++);
@@ -34,6 +35,8 @@ namespace Bhaskara
 
             if (delta < 0)
             {
+                Console.WriteLine($"\n\nZeros da Equação (com delta negativo): {delta}\n\n");
+
                 delta = delta * -1;
                 b = b / 2 * a;
                 delta = Math.Sqrt(delta) / 2 * a;
@@ -43,6 +46,8 @@ namespace Bhaskara
             }
             else
             {
+
+                Console.WriteLine($"\n\nZeros da Equação: \n\n");
                 x[0] = (-b + Math.Sqrt(delta)) / 2 * a;
                 x[1] = (-b - Math.Sqrt(delta)) / 2 * a;
             
