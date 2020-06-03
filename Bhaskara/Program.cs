@@ -38,8 +38,8 @@ namespace Bhaskara
                 Console.WriteLine($"\n\nZeros da Equação (com delta negativo): {delta}\n\n");
 
                 delta = delta * -1;
-                b = b / 2 * a;
-                delta = Math.Sqrt(delta) / 2 * a;
+                b = (-1*b) / (2 * a);
+                delta = Math.Sqrt(delta) / (2 * a);
 
                 Console.WriteLine($"{b} + {delta}.i");
                 Console.WriteLine($"{b} - {delta}.i");
